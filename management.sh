@@ -1,5 +1,33 @@
 #!/bin/bash
 
+## management.sh
+# Version: 0.1.7-SNAPSHOT
+##
+
+function scriptUpdate {
+        wget "https://raw.github.com/julian-eggers/jardh/master/management.sh" -O "management_new_version.sh" -nv
+
+	if grep -q "Version" "management_new_version.sh";
+	then
+	        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
+	        if [ $? == "0" ]; then
+	                echo "No update required"
+	                rm "management_new_version.sh"
+	        else
+	                echo "Update required"
+	                rm "management.sh"
+	                mv "management_new_version.sh" "management.sh"
+	                chmod +x "management.sh"
+	                echo "Update succesful > restart script"
+	                source $(dirname $(readlink -f $0))/management.sh
+	                exit 1;
+	        fi
+	else
+		echo "File-content not verified > update aborted"
+		rm "management_new_version.sh"
+	fi
+}
+
 function startApp {
         echo "Starting app... $RUNNING_JAR"
 
@@ -72,6 +100,11 @@ function rollback {
         echo "Rollback finished"
 }
 
+
+if [ "$AUTO_UPDATE_ENABLED" = "1" ]; then
+        scriptUpdate
+fi
+
 case "$1" in
 	startApp)
 		startApp
@@ -90,7 +123,7 @@ case "$1" in
 		appStatus
 	;;
 
-  deploy)
+  	deploy)
 		if [ ! -z $2 ]; then
 			deploy $2
 		else
