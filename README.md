@@ -1,6 +1,6 @@
 jardh
 =====
-Java Application Archive (JAR) Deployment Helper
+Java Archive (JAR) Deployment Helper
 
 Usage:
 ------
