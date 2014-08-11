@@ -1,0 +1,15 @@
+#!/bin/bash
+
+AUTO_UPDATE_ENABLED="1"
+
+JVM_PARAMETERS="-Dprofile=production -Djava.awt.headless=true"
+CONSOLE_LOG_FILE="/root/logs/web.output.log"
+APP_SHUTDOWN_COMMAND="curl http://localhost:17801/shutdown"
+APP_KILL_COMMAND="kill -9 `ps aux | grep web.jar | awk '{print $2}'`"
+
+JAR_BACKUP_FOLDER="/root/backups/jars/web/"
+RUNNING_JAR="/root/apps_running/web.jar"
+DEPLOYABLE_JAR="/root/apps_deployable/web.jar"
+
+
+source $(dirname $(readlink -f $0))/management.sh
