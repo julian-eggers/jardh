@@ -48,7 +48,7 @@ function stopApp {
                 $APP_SHUTDOWN_COMMAND
                 sleep $APP_SHUTDOWN_TIMEOUT
                 
-                if [ -e /proc/$APP_PID ]; then
+                if [ -e "/proc/$APP_PID" ]; then
                         echo "App not stopped -> Kill app"
                         $APP_KILL_COMMAND
                 fi
