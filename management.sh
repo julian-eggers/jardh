@@ -43,15 +43,12 @@ function startApp {
 function stopApp {
         echo "Stopping app..."
         
-        if [ ! -f $RUNNING_JAR ]; then
-                echo "$RUNNING_JAR not found"
-                exit 1;
+        if [ -f $RUNNING_JAR ]; then
+	        $APP_SHUTDOWN_COMMAND
+	        sleep 10
+	        $APP_KILL_COMMAND
+	        echo "App stopped"
         fi
-
-        $APP_SHUTDOWN_COMMAND
-        sleep 10
-        $APP_KILL_COMMAND
-        echo "App stopped"
 }
 
 function appStatus {
