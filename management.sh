@@ -51,7 +51,7 @@ function stopApp {
                 if [ -e /proc/$APP_PID ]; then
                         echo "App not stopped -> Kill app"
                         $APP_KILL_COMMAND
-                ]
+                fi
                 echo "App stopped"
         fi
 }
