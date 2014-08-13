@@ -79,8 +79,10 @@ function deploy {
                 echo "Old jar saved"
         fi
 
-        rm -r ${RUNNING_JAR/.jar/*}
-        echo "Current jar removed"
+	if [ -f $RUNNING_JAR ]; then
+                rm -r ${RUNNING_JAR/.jar/*}
+                echo "Current jar removed"
+        fi
 
         mv $1 $RUNNING_JAR
         echo "New jar moved"
