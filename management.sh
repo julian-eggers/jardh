@@ -47,15 +47,10 @@ function stopApp {
                 echo "Executing shutdown-command..."
                 $APP_SHUTDOWN_COMMAND
                 sleep $APP_SHUTDOWN_TIMEOUT
-                
-                if [ -e "/proc/$APP_PID" ]; then
-                        echo "App not stopped -> Kill app"
-                        $APP_KILL_COMMAND
-                fi
+                $APP_KILL_COMMAND 1>/dev/null
                 echo "App stopped"
         fi
 }
-
 
 function appStatus {
         $APPLICATION_SERVER_STATUS
