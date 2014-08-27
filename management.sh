@@ -5,26 +5,26 @@
 ##
 
 function scriptUpdate {
-        wget "https://raw.github.com/julian-eggers/jardh/master/management.sh" -O "$(dirname $(readlink -f $0))/management_new_version.sh" -nv
+        wget "https://raw.github.com/julian-eggers/jardh/master/management.sh" -O "management_new_version.sh" -nv
 
-	if grep -q "Version" "$(dirname $(readlink -f $0))/management_new_version.sh";
+	if grep -q "Version" "management_new_version.sh";
 	then
-	        diff -q "$(dirname $(readlink -f $0))/management.sh" "$(dirname $(readlink -f $0))/management_new_version.sh" 1>/dev/null
+	        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
 	        if [ $? == "0" ]; then
 	                echo "No update required"
-	                rm "$(dirname $(readlink -f $0))/management_new_version.sh"
+	                rm "management_new_version.sh"
 	        else
 	                echo "Update required"
-	                rm "$(dirname $(readlink -f $0))/management.sh"
-	                mv "$(dirname $(readlink -f $0))/management_new_version.sh" "$(dirname $(readlink -f $0))/management.sh"
-	                chmod +x "$(dirname $(readlink -f $0))/management.sh"
+	                rm "management.sh"
+	                mv "management_new_version.sh" "management.sh"
+	                chmod +x "management.sh"
 	                echo "Update succesful > restart script"
 	                source $(dirname $(readlink -f $0))/management.sh
 	                exit 1;
 	        fi
 	else
 		echo "File-content not verified > update aborted"
-		rm "$(dirname $(readlink -f $0))/management_new_version.sh"
+		rm "management_new_version.sh"
 	fi
 }
 
