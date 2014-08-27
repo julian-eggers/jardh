@@ -7,7 +7,7 @@
 function scriptUpdate {
         wget "https://raw.github.com/julian-eggers/jardh/master/management.sh" -O "$(dirname $(readlink -f $0))/management_new_version.sh" -nv
 
-	if grep -q "Version" "management_new_version.sh";
+	if grep -q "Version" "$(dirname $(readlink -f $0))/management_new_version.sh";
 	then
 	        diff -q "$(dirname $(readlink -f $0))/management.sh" "$(dirname $(readlink -f $0))/management_new_version.sh" 1>/dev/null
 	        if [ $? == "0" ]; then
@@ -24,7 +24,7 @@ function scriptUpdate {
 	        fi
 	else
 		echo "File-content not verified > update aborted"
-		rm "management_new_version.sh"
+		rm "$(dirname $(readlink -f $0))/management_new_version.sh"
 	fi
 }
 
