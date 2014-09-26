@@ -43,12 +43,34 @@ function startApp {
 function stopApp {
         echo "Stopping app..."
 
-        if [ -f $RUNNING_JAR ]; then
-                echo "Executing shutdown-command..."
-                $APP_SHUTDOWN_COMMAND
-                sleep $APP_SHUTDOWN_TIMEOUT
-                $APP_KILL_COMMAND 1>/dev/null
-                echo "App stopped"
+        if [ ! -f $RUNNING_JAR ]; then
+                echo "$RUNNING_JAR is not running"
+                exit 1;
+        fi
+
+        PID=$APP_PID
+
+        if [ ! -f /proc/$PID/exe ]; then
+                echo "PID $APP_PID not found"
+                exit 1;
+        fi
+
+        echo "Executing shutdown-command..."
+        $APP_SHUTDOWN_COMMAND
+        echo ""
+        echo "Shutdown-command executed...Waiting $APP_SHUTDOWN_TIMEOUT seconds..."
+        sleep $APP_SHUTDOWN_TIMEOUT
+
+        if [ -f /proc/$PID/exe ]; then
+                echo "Shutdown failed...Try to kill app..."
+		$APP_KILL_COMMAND 1>/dev/null
+                echo "Kill-command executed"
+        fi
+
+        if [ ! -f /proc/$PID/exe ]; then
+                echo "App successful stopped"
+        else
+                echo "FAILED TO STOP APP (PID: $PID)!"
         fi
 }
 
