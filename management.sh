@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.7-SNAPSHOT
+# Version: 0.2.0-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -45,14 +45,14 @@ function stopApp {
 
         if [ ! -f $RUNNING_JAR ]; then
                 echo "$RUNNING_JAR is not running"
-                exit 1;
+                return 1;
         fi
 
         PID=$APP_PID
 
         if [ ! -f /proc/$PID/exe ]; then
                 echo "PID $APP_PID not found"
-                exit 1;
+                return 1;
         fi
 
         echo "Executing shutdown-command..."
@@ -164,6 +164,10 @@ case "$1" in
 	rollback)
 		rollback
 	;;
+	
+	scriptUpdate)
+		scriptUpdate
+	;;
 
 	*)
 		echo "Usage:"
@@ -174,5 +178,6 @@ case "$1" in
 		echo "	*.sh deploy"
 		echo "	*.sh deploy any.jar"
 		echo "	*.sh rollback"
+		echo "	*.sh scriptUpdate"
 	;;
 esac
