@@ -36,7 +36,7 @@ function startApp {
                 exit 1;
         fi
 
-        nohup java -jar $JVM_PARAMETERS $RUNNING_JAR $APPLICATION_PARAMETERS > $CONSOLE_LOG_FILE &
+        nohup java -jar $JVM_PARAMETERS $RUNNING_JAR $APPLICATION_PARAMETERS > $CONSOLE_LOG_FILE 2>&1 &
         echo "App started"
 }
 
