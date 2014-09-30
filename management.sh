@@ -51,7 +51,7 @@ function stopApp {
         PID=$APP_PID
 
         if [ ! -f /proc/$PID/exe ]; then
-                echo "PID $APP_PID not found"
+                echo "PID $PID not found"
                 return 1;
         fi
 
