@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.2.0-SNAPSHOT
+# Version: 0.3.0.RELEASE
 ##
 
 function scriptUpdate {
@@ -48,7 +48,7 @@ function stopApp {
                 return 1;
         fi
 
-        PID=$APP_PID
+        PID=$(getPid)
 
         if [ ! -f /proc/$PID/exe ]; then
                 echo "PID $PID not found"
@@ -63,7 +63,8 @@ function stopApp {
 
         if [ -f /proc/$PID/exe ]; then
                 echo "Shutdown failed...Try to kill app..."
-		$APP_KILL_COMMAND 1>/dev/null
+		kill -9 $PID
+		rm $APP_PID_FILE 2> /dev/null
                 echo "Kill-command executed"
         fi
 
@@ -74,7 +75,18 @@ function stopApp {
         fi
 }
 
+function getPid {
+	if [[ $APP_PID ]]; then
+		echo $APP_PID
+	elif [[  $APP_PID_FILE ]]; then
+		echo $(cat "$APP_PID_FILE")
+	else
+		echo "PID_NOT_FOUND"
+	fi
+}
+
 function appStatus {
+	echo "PID: $(getPid)"
         $APPLICATION_SERVER_STATUS
 }
 
@@ -164,7 +176,7 @@ case "$1" in
 	rollback)
 		rollback
 	;;
-	
+
 	scriptUpdate)
 		scriptUpdate
 	;;
