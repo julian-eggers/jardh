@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.3.0.RELEASE
+# Version: 0.3.1.RELEASE
 ##
 
 function scriptUpdate {
@@ -79,7 +79,11 @@ function getPid {
 	if [[ $APP_PID ]]; then
 		echo $APP_PID
 	elif [[  $APP_PID_FILE ]]; then
-		echo $(cat "$APP_PID_FILE")
+		if [ -f $APP_PID_FILE ]; then
+			echo $(cat "$APP_PID_FILE")
+		else
+			echo "PIDFILE_NOT_FOUND"
+		fi
 	else
 		echo "PID_NOT_FOUND"
 	fi
